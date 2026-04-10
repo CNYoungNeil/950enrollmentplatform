@@ -9,5 +9,4 @@ This repository is organized as a simple monorepo with separate frontend and bac
 
 ## Notes
 
-- Current development is focused on the backend
 - The backend project structure and dependency list are documented in `backend/README.md`
