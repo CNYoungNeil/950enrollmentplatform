@@ -4,5 +4,6 @@ sqlalchemy
 alembic
 pydantic
 pymysql
+python-dotenv
 pytest
 pytest-asyncio
