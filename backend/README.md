@@ -98,6 +98,33 @@ Suggested contents:
 - `pytest`
 - `pytest-asyncio`
 
+## Environment Variables
+
+Backend configuration is loaded from `backend/.env`.
+
+Common settings:
+
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_NAME`
+- `APP_HOST`
+- `APP_PORT`
+- `APP_RELOAD`
+
+You can start the backend with:
+
+```bash
+python main.py
+```
+
+Default startup values are:
+
+- host: `127.0.0.1`
+- port: `8000`
+- reload: `true`
+
 
 ## Summary
 
