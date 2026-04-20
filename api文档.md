@@ -82,6 +82,7 @@
 | name | string | 用户姓名 |
 | email | string | 用户邮箱 |
 | password | string | 用户密码 |
+| role     | integer | 用户角色 |
 
 ### 请求 JSON 结构
 
@@ -89,7 +90,8 @@
 {
   "name": "",
   "email": "",
-  "password": ""
+  "password": "",
+  "role": ""
 }
 ```
 
