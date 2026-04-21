@@ -19,6 +19,9 @@ class Settings:
     APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
     APP_PORT = int(os.getenv("APP_PORT", "8000"))
     APP_RELOAD = os.getenv("APP_RELOAD", "true").lower() == "true"
+    JWT_SECRET_KEY = os.environ["JWT_SECRET_KEY"]
+    JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+    JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", "120"))
 
     @property
     def sqlalchemy_database_url(self) -> str:

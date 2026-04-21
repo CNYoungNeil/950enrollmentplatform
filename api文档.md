@@ -31,7 +31,7 @@
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
-| AuthRespVO | object | 登录接口响应对象 |
+| AuthResp | object | 登录接口响应对象 |
 
 ### 响应 JSON 结构
 
@@ -50,14 +50,14 @@
 }
 ```
 
-### AuthRespVO 对象结构
+### AuthResp 对象结构
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
 | token | string | 登录后的身份令牌 |
 | user | object | 当前登录用户信息 |
 
-### AuthRespVO.user 对象结构
+### AuthResp.user 对象结构
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
@@ -99,7 +99,7 @@
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
-| AuthRespVO | object | 注册接口响应对象 |
+| AuthResp | object | 注册接口响应对象 |
 
 ### 响应 JSON 结构
 
@@ -118,14 +118,14 @@
 }
 ```
 
-### AuthRespVO 对象结构
+### AuthResp 对象结构
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
 | token | string | 注册成功后的身份令牌 |
 | user | object | 注册成功后的用户信息 |
 
-### AuthRespVO.user 对象结构
+### AuthResp.user 对象结构
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
