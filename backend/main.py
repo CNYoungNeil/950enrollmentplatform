@@ -3,11 +3,14 @@ from pathlib import Path
 import uvicorn
 
 try:
+    from .app.api import auth_router
     from .app.core.config import settings
 except ImportError:
+    from app.api import auth_router
     from app.core.config import settings
 
 app = FastAPI()
+app.include_router(auth_router)
 
 
 @app.get("/")
