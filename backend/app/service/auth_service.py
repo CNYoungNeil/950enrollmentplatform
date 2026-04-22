@@ -27,10 +27,11 @@ class AuthService:
         # 注册前先检查邮箱是否已存在，避免重复注册。
         existing_user = UserRepository.get_by_email(db, req.email)
         if existing_user is not None:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="email has already been registered",
-            )
+            return {
+                "token": None,
+                "user": None,
+                "msg": "This email has been registered.",
+            }
 
         user = UserRepository.create(
             db,
@@ -65,6 +66,7 @@ class AuthService:
                 "created_at": user.created_at.isoformat(sep=" ") if user.created_at else None,
                 "updated_at": user.updated_at.isoformat(sep=" ") if user.updated_at else None,
             },
+            "msg": None,
         }
 
     @staticmethod

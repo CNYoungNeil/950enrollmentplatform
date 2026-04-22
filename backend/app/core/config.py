@@ -19,9 +19,17 @@ class Settings:
     APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
     APP_PORT = int(os.getenv("APP_PORT", "8000"))
     APP_RELOAD = os.getenv("APP_RELOAD", "true").lower() == "true"
+    CORS_ALLOW_ORIGINS = os.getenv(
+        "CORS_ALLOW_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173",
+    )
     JWT_SECRET_KEY = os.environ["JWT_SECRET_KEY"]
     JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
     JWT_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES", "120"))
+
+    @property
+    def cors_allow_origins(self) -> list[str]:
+        return [origin.strip() for origin in self.CORS_ALLOW_ORIGINS.split(",") if origin.strip()]
 
     @property
     def sqlalchemy_database_url(self) -> str:

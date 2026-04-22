@@ -2,7 +2,7 @@
 
 ## 基础信息
 
-- 前端地址：`http://localhost:8000`
+- 前端地址：`http://localhost:5173`
 - 后端地址：`http://localhost:8088`
 
 ## 1. 登录
@@ -38,6 +38,7 @@
 ```json
 {
   "token": "",
+  "msg": null,
   "user": {
     "id": "",
     "name": "",
@@ -54,8 +55,9 @@
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
-| token | string | 登录后的身份令牌 |
-| user | object | 当前登录用户信息 |
+| token | string \| null | 登录成功时返回的身份令牌 |
+| msg | string \| null | 附加提示信息，登录成功时通常为 `null` |
+| user | object \| null | 当前登录用户信息，登录成功时返回 |
 
 ### AuthResp.user 对象结构
 
@@ -106,6 +108,7 @@
 ```json
 {
   "token": "",
+  "msg": null,
   "user": {
     "id": "",
     "name": "",
@@ -118,12 +121,23 @@
 }
 ```
 
+### 邮箱已注册时的响应 JSON 示例
+
+```json
+{
+  "token": null,
+  "msg": "This email has been registered.",
+  "user": null
+}
+```
+
 ### AuthResp 对象结构
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
-| token | string | 注册成功后的身份令牌 |
-| user | object | 注册成功后的用户信息 |
+| token | string \| null | 注册成功时返回的身份令牌；邮箱已存在时为 `null` |
+| msg | string \| null | 附加提示信息；邮箱已存在时返回 `This email has been registered.` |
+| user | object \| null | 注册成功后的用户信息；邮箱已存在时为 `null` |
 
 ### AuthResp.user 对象结构
 

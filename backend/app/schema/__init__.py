@@ -1,5 +1,5 @@
 
-from .auth_schema import AuthResp
+from .auth_resp import AuthResp
 from .login_req import LoginReq
 from .register_req import RegisterReq
 
