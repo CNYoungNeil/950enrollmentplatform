@@ -7,3 +7,4 @@ pymysql
 python-dotenv
 pytest
 pytest-asyncio
+python-multipart
