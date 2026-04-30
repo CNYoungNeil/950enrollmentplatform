@@ -109,6 +109,12 @@ class AssignmentService:
         section = SectionRepository.update(db, section, **updates)
         return AssignmentService._assignment_to_dict(section)
 
+    @staticmethod
+    def delete_assignment(db: Session, section_id: int, instructor_id: int) -> None:
+        section = AssignmentService._get_assignment_or_404(db, section_id)
+        AssignmentService._assert_instructor_owns_course(db, int(section.course_id), instructor_id)
+        SectionRepository.delete(db, section)
+
     # ── Instructor: view & grade submissions ────────────────────────────────
 
     @staticmethod

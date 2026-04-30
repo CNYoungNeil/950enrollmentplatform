@@ -34,3 +34,7 @@ class AssignmentUpdateReq(BaseModel):
     due_at: datetime | None = None
     display_order: int | None = None
     is_published: int | None = None
+
+
+class FileUpdateReq(BaseModel):
+    display_order: int | None = None

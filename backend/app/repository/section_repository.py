@@ -71,6 +71,11 @@ class SectionRepository:
         return section
 
     @staticmethod
+    def delete(db: Session, section: CourseSection) -> None:
+        db.delete(section)
+        db.commit()
+
+    @staticmethod
     def add_file(
         db: Session,
         *,
@@ -91,3 +96,22 @@ class SectionRepository:
         db.commit()
         db.refresh(f)
         return f
+
+    @staticmethod
+    def get_file_by_id(db: Session, file_id: int) -> CourseSectionFile | None:
+        return db.execute(
+            select(CourseSectionFile).where(CourseSectionFile.id == file_id)
+        ).scalar_one_or_none()
+
+    @staticmethod
+    def update_file(db: Session, file: CourseSectionFile, **kwargs) -> CourseSectionFile:
+        for key, value in kwargs.items():
+            setattr(file, key, value)
+        db.commit()
+        db.refresh(file)
+        return file
+
+    @staticmethod
+    def delete_file(db: Session, file: CourseSectionFile) -> None:
+        db.delete(file)
+        db.commit()

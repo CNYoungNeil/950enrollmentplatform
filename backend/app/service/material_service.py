@@ -7,7 +7,7 @@ from ..core.config import settings
 from ..model import CourseSection, CourseSectionFile
 from ..repository.course_repository import CourseRepository, EnrollmentRepository
 from ..repository.section_repository import SectionRepository
-from ..schema.section_schema import SectionCreateReq, SectionUpdateReq
+from ..schema.section_schema import FileUpdateReq, SectionCreateReq, SectionUpdateReq
 from ..utils.file_util import save_upload
 
 # section_type values that are "materials" (not assignments)
@@ -113,6 +113,42 @@ class MaterialService:
         updates = req.model_dump(exclude_none=True)
         section = SectionRepository.update(db, section, **updates)
         return MaterialService._section_to_dict(section)
+
+    @staticmethod
+    def delete_section(db: Session, section_id: int, instructor_id: int) -> None:
+        section = SectionRepository.get_by_id(db, section_id)
+        if section is None or section.section_type not in _MATERIAL_TYPES:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Section not found")
+        MaterialService._assert_instructor_owns_course(db, int(section.course_id), instructor_id)
+        SectionRepository.delete(db, section)
+
+    @staticmethod
+    def update_file(
+        db: Session, section_id: int, file_id: int, instructor_id: int, req: FileUpdateReq
+    ) -> dict:
+        file = SectionRepository.get_file_by_id(db, file_id)
+        if file is None or int(file.section_id) != section_id:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
+        section = SectionRepository.get_by_id(db, section_id)
+        if section is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Section not found")
+        MaterialService._assert_instructor_owns_course(db, int(section.course_id), instructor_id)
+        updates = req.model_dump(exclude_none=True)
+        file = SectionRepository.update_file(db, file, **updates)
+        return MaterialService._file_to_dict(file)
+
+    @staticmethod
+    def delete_file(
+        db: Session, section_id: int, file_id: int, instructor_id: int
+    ) -> None:
+        file = SectionRepository.get_file_by_id(db, file_id)
+        if file is None or int(file.section_id) != section_id:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
+        section = SectionRepository.get_by_id(db, section_id)
+        if section is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Section not found")
+        MaterialService._assert_instructor_owns_course(db, int(section.course_id), instructor_id)
+        SectionRepository.delete_file(db, file)
 
     @staticmethod
     def upload_file(

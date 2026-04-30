@@ -54,6 +54,18 @@ def update_assignment(
     return AssignmentService.update_assignment(db, section_id, user.user_id, req)
 
 
+@router.delete("/{section_id}")
+def delete_assignment(
+    course_id: int,
+    section_id: int,
+    user: CurrentUser = Depends(require_instructor),
+    db: Session = Depends(get_db),
+):
+    """Instructor: delete an assignment section."""
+    AssignmentService.delete_assignment(db, section_id, user.user_id)
+    return {}
+
+
 @router.post("/{section_id}/submit")
 def submit_assignment(
     course_id: int,
