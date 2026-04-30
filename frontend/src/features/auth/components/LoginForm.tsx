@@ -43,8 +43,13 @@ const LoginForm: React.FC = () => {
 
       navigateByRole(response.user.role);
     } catch (error: any) {
-      const errorMsg = error.response?.data?.message || 'Invalid email or password. Please try again.';
-      message.error(errorMsg);
+      if (!error.response) {
+        message.error('Cannot connect to server. Please make sure the backend is running.');
+      } else if (error.response.status === 401 || error.response.status === 400) {
+        message.error('Invalid email or password. Please try again.');
+      } else {
+        message.error(error.response?.data?.detail || 'Login failed. Please try again.');
+      }
       console.error(error);
     } finally {
       setLoading(false);

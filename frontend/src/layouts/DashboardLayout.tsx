@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Button, Avatar, Dropdown, Space, Typography, Card } from 'antd';
+import { Layout, Menu, Button, Avatar, Dropdown, Space, Typography } from 'antd';
 import {
   UserOutlined,
   LogoutOutlined,
@@ -7,8 +7,9 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ROUTES } from '@/router/routes';
 import { DASHBOARD_CONFIG } from './config';
 
@@ -19,7 +20,8 @@ export const DashboardLayout: React.FC = () => {
   const [collapsed, setCollapsed] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, clearAuth } = useAuthStore();
+  const { user, isInstructor } = useCurrentUser();
+  const { clearAuth } = useAuthStore();
 
   const config = user ? DASHBOARD_CONFIG[user.role] : null;
 
@@ -63,7 +65,7 @@ export const DashboardLayout: React.FC = () => {
           selectedKeys={[location.pathname]}
           items={config.menuItems.map((item) => ({
             key: item.path,
-            icon: item.icon,
+            icon: React.createElement(item.icon),
             label: item.label,
             onClick: () => navigate(item.path),
           }))}
@@ -96,7 +98,7 @@ export const DashboardLayout: React.FC = () => {
                     {user?.name}
                   </Text>
                   <Text className="text-[11px] text-white/60">
-                    Role ID: {user?.role}
+                    {isInstructor ? 'Instructor' : 'Student'}
                   </Text>
                 </div>
               </Space>
@@ -104,17 +106,8 @@ export const DashboardLayout: React.FC = () => {
           </Space>
         </Header>
 
-        <Content className="p-6">
-          <div className="h-full min-h-[calc(100vh-128px)] flex items-center justify-center bg-white rounded-lg shadow-sm">
-            <div className="text-center">
-              <Title level={3} className="!mb-2">
-                Dashboard
-              </Title>
-              <Text type="secondary" className="text-lg block">
-                {config.welcomeDescription}
-              </Text>
-            </div>
-          </div>
+        <Content className="overflow-auto min-h-[calc(100vh-64px)]">
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
