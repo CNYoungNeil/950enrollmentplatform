@@ -21,4 +21,21 @@ export const courseApi = {
   // Student: enroll in a course.
   enroll: (courseId: number) =>
     apiClient.post(`/api/courses/${courseId}/enroll`).then((r) => r.data),
+
+  // Student: submit assignment file.
+  submitAssignment: (courseId: number, assignmentId: number, file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiClient
+      .post(`/api/courses/${courseId}/assignments/${assignmentId}/submit`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((r) => r.data);
+  },
+
+  // Student: get current user's submission for an assignment.
+  getMySubmission: (courseId: number, assignmentId: number) =>
+    apiClient
+      .get(`/api/courses/${courseId}/assignments/${assignmentId}/my-submission`)
+      .then((r) => r.data),
 };
