@@ -2,12 +2,15 @@ import React from 'react';
 import { Typography } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import type { CourseSection } from '@/features/courses/types';
+import { SECTION_TYPE } from '@/features/courses/types';
 import { SECTION_ICON_CONFIG } from '@/features/courses/constants/courseUIConfig';
 import { CourseFileList } from '@/features/courses/components/CourseFileList';
+import { AssignmentSubmissionPanel } from './AssignmentSubmissionPanel';
 
 const { Title, Text, Paragraph } = Typography;
 
 interface CourseSectionCardProps {
+  courseId: number;
   section: CourseSection;
   isExpanded: boolean;
   onToggle: () => void;
@@ -15,6 +18,7 @@ interface CourseSectionCardProps {
 }
 
 export const CourseSectionCard: React.FC<CourseSectionCardProps> = ({
+  courseId,
   section,
   isExpanded,
   onToggle,
@@ -76,7 +80,14 @@ export const CourseSectionCard: React.FC<CourseSectionCardProps> = ({
 
         {!section.description_text && (!section.files || section.files.length === 0) && (
           <div className="py-10 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-            <Text type="secondary">Assignments will appear here</Text>
+            <Text type="secondary">Assignment instructions or files will appear here</Text>
+          </div>
+        )}
+
+        {/* Assignment Submission Panel */}
+        {section.section_type === SECTION_TYPE.ASSIGNMENT && (
+          <div className="mt-6">
+            <AssignmentSubmissionPanel courseId={courseId} section={section} />
           </div>
         )}
       </div>

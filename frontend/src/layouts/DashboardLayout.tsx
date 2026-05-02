@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useAppStore } from '@/store/useAppStore';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ROUTES } from '@/router/routes';
 import { DASHBOARD_CONFIG } from './config';
@@ -17,7 +18,7 @@ const { Header, Sider, Content } = Layout;
 const { Title, Text } = Typography;
 
 export const DashboardLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = React.useState(false);
+  const { sidebarCollapsed, setSidebarCollapsed } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isInstructor } = useCurrentUser();
@@ -49,28 +50,29 @@ export const DashboardLayout: React.FC = () => {
       <Sider
         trigger={null}
         collapsible
-        collapsed={collapsed}
+        collapsed={sidebarCollapsed}
         collapsedWidth={0}
         theme="light"
         width={260}
         className="shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20"
-        style={{ 
-          minHeight: '100vh',
-          position: 'sticky',
+        style={{
+          height: '100vh',
+          position: 'fixed',
           left: 0,
           top: 0,
           bottom: 0,
+          overflow: 'auto',
         }}
       >
-        <div className="h-20 flex items-center px-6 mb-4">
-          <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
-            <span className="text-white font-bold text-lg italic">G</span>
-          </div>
-          {!collapsed && (
+        <div className="h-20 mb-4 overflow-hidden whitespace-nowrap">
+          <div className="flex items-center px-6 h-full" style={{ width: 260, flexShrink: 0 }}>
+            <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+              <span className="text-white font-bold text-lg italic">G</span>
+            </div>
             <Title level={4} className="!m-0 !text-gray-800 !text-lg !font-bold tracking-tight">
               {config.title}
             </Title>
-          )}
+          </div>
         </div>
 
         <Menu
@@ -87,16 +89,21 @@ export const DashboardLayout: React.FC = () => {
         />
       </Sider>
 
-      <Layout style={{ background: '#F8FAFC' }}>
-        <Header 
+      <Layout
+        style={{
+          background: '#F8FAFC',
+          marginLeft: sidebarCollapsed ? 0 : 260,
+        }}
+      >
+        <Header
           className="sticky top-0 z-10 w-full flex items-center justify-between px-8 h-20 border-b border-gray-100/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
           style={{ background: 'white', padding: 0 }}
         >
           <div className="flex items-center">
             <Button
               type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
+              icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
               className="text-gray-500 text-lg w-10 h-10 flex items-center justify-center hover:!bg-gray-50 rounded-xl"
             />
           </div>
@@ -131,8 +138,8 @@ export const DashboardLayout: React.FC = () => {
           </Space>
         </Header>
 
-        <Content 
-          className="min-h-[calc(100vh-80px)] overflow-auto" 
+        <Content
+          className="min-h-[calc(100vh-80px)] overflow-auto"
           style={{ background: '#F8FAFC' }}
         >
           <Outlet />

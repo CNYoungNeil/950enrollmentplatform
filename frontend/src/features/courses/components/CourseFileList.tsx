@@ -3,6 +3,7 @@ import { Typography, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import type { CourseSectionFile } from '@/features/courses/types';
 import { FILE_ICON_CONFIG } from '@/features/courses/constants/courseUIConfig';
+import { config } from '@/config';
 
 const { Text } = Typography;
 
@@ -12,7 +13,9 @@ interface CourseFileListProps {
 
 export const CourseFileList: React.FC<CourseFileListProps> = ({ files }) => {
   const handleDownload = (fileUrl: string) => {
-    const fullUrl = `${import.meta.env.VITE_API_BASE_URL}${fileUrl}`;
+    const baseUrl = config.apiBaseUrl.replace(/\/$/, '');
+    const path = fileUrl.startsWith('/') ? fileUrl : `/${fileUrl}`;
+    const fullUrl = fileUrl.startsWith('http') ? fileUrl : `${baseUrl}${path}`;
     window.open(fullUrl, '_blank');
   };
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Typography, Button, Breadcrumb } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { Typography, Breadcrumb } from 'antd';
 import { ROUTES } from '@/router/routes';
 import { Link } from 'react-router-dom';
 
@@ -8,10 +7,9 @@ const { Text } = Typography;
 
 interface CourseDetailHeaderProps {
   course: any;
-  onMenuClick: () => void;
 }
 
-export const CourseDetailHeader: React.FC<CourseDetailHeaderProps> = ({ course, onMenuClick }) => {
+export const CourseDetailHeader: React.FC<CourseDetailHeaderProps> = ({ course }) => {
   if (!course) return null;
 
   return (
@@ -19,14 +17,6 @@ export const CourseDetailHeader: React.FC<CourseDetailHeaderProps> = ({ course, 
       <div className="px-10 py-8">
         <div className="flex items-center justify-between gap-8">
           <div className="flex items-center gap-6 min-w-0">
-            {/* Nav Toggle Button */}
-            <Button
-              type="text"
-              icon={<MenuOutlined />}
-              onClick={onMenuClick}
-              className="flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm border border-blue-100"
-            />
-
             <div className="flex flex-col min-w-0 text-left">
               <Breadcrumb
                 className="mb-1 text-[11px] uppercase tracking-wider font-semibold text-gray-400"

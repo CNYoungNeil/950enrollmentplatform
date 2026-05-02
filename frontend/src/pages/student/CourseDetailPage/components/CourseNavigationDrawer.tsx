@@ -11,6 +11,7 @@ interface CourseNavigationDrawerProps {
   onClose: () => void;
   sections: CourseSection[];
   onScrollTo: (id: string) => void;
+  mask?: boolean;
 }
 
 export const CourseNavigationDrawer: React.FC<CourseNavigationDrawerProps> = ({
@@ -18,13 +19,15 @@ export const CourseNavigationDrawer: React.FC<CourseNavigationDrawerProps> = ({
   onClose,
   sections,
   onScrollTo,
+  mask = true,
 }) => {
   return (
     <Drawer
       placement="left"
       onClose={onClose}
       open={isOpen}
-      width={280}
+      width={260}
+      mask={mask}
       closable={false}
       styles={{ body: { padding: 0 } }}
       className="course-index-drawer"
@@ -38,16 +41,6 @@ export const CourseNavigationDrawer: React.FC<CourseNavigationDrawerProps> = ({
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          <div
-            onClick={() => onScrollTo('general')}
-            className="flex items-center gap-3 p-4 rounded-2xl cursor-pointer hover:bg-gray-50 transition-all mb-2 group"
-          >
-            <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <CompassOutlined />
-            </div>
-            <Text className="font-medium group-hover:text-blue-600 transition-colors">General</Text>
-          </div>
-
           {sections.map((section) => {
             const config = SECTION_ICON_CONFIG[section.section_type] || SECTION_ICON_CONFIG[1];
             return (
