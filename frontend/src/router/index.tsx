@@ -7,6 +7,7 @@ import CoursesPage from '@/pages/instructor/CoursesPage';
 import CourseConfigPage from '@/pages/instructor/CourseConfigPage';
 import CourseCatalogPage from '@/pages/student/CourseCatalogPage';
 import EnrolledCoursesPage from '@/pages/student/EnrolledCoursesPage';
+import CourseDetailPage from '@/pages/student/CourseDetailPage';
 import StudentDashboardHome from '@/pages/student/StudentDashboardHome';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ROUTES } from './routes';
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: 'instructor/courses/:courseId', element: <CourseConfigPage /> },
       { path: 'student/catalog', element: <CourseCatalogPage /> },
       { path: 'student/courses', element: <EnrolledCoursesPage /> },
+      { path: 'student/courses/:id', element: <CourseDetailPage /> },
     ],
   },
 ]);
