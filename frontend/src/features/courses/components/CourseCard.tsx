@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, Typography, Space } from 'antd';
-import { CalendarOutlined, RightOutlined } from '@ant-design/icons';
+import { Card, Typography } from 'antd';
+import { CalendarOutlined } from '@ant-design/icons';
 import CourseStatusBadge from './CourseStatusBadge';
 import type { Course } from '../types';
 
@@ -9,9 +9,10 @@ const { Title, Text } = Typography;
 interface Props {
   course: Course;
   onClick: (course: Course) => void;
+  showStatus?: boolean;
 }
 
-const CourseCard: React.FC<Props> = ({ course, onClick }) => (
+const CourseCard: React.FC<Props> = ({ course, onClick, showStatus = true }) => (
   <Card
     hoverable
     onClick={() => onClick(course)}
@@ -20,8 +21,11 @@ const CourseCard: React.FC<Props> = ({ course, onClick }) => (
   >
     <div className="flex flex-col gap-3 h-full">
       <div className="flex items-start justify-between gap-2">
-        <CourseStatusBadge status={course.status} />
-        <RightOutlined className="text-gray-400 mt-0.5 flex-shrink-0" />
+        {showStatus ? (
+          <CourseStatusBadge status={course.status} />
+        ) : (
+          <div className="h-6" /> // Maintain height for consistent spacing
+        )}
       </div>
 
       <div>

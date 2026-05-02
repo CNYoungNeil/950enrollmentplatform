@@ -9,13 +9,16 @@ export const courseApi = {
 
   // Returns material sections (type 1-4) with embedded files[].
   getCourseSections: (courseId: number) =>
-    apiClient
-      .get<CourseSection[]>(`/api/courses/${courseId}/sections`)
-      .then((r) => r.data),
+    apiClient.get<CourseSection[]>(`/api/courses/${courseId}/sections`).then((r) => r.data),
 
   // Returns assignment sections (type 5).
   getCourseAssignments: (courseId: number) =>
-    apiClient
-      .get<CourseSection[]>(`/api/courses/${courseId}/assignments`)
-      .then((r) => r.data),
+    apiClient.get<CourseSection[]>(`/api/courses/${courseId}/assignments`).then((r) => r.data),
+
+  // Get all published courses.
+  listCourses: () => apiClient.get<Course[]>('/api/courses').then((r) => r.data),
+
+  // Student: enroll in a course.
+  enroll: (courseId: number) =>
+    apiClient.post(`/api/courses/${courseId}/enroll`).then((r) => r.data),
 };
